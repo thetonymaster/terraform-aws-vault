@@ -14,10 +14,12 @@
 
 variable "ami_id" {
   description = "The ID of the AMI to run in the cluster. This should be an AMI built from the Packer template under examples/vault-consul-ami/vault-consul.json."
+  default     = "ami-aa1420d5"
 }
 
 variable "ssh_key_name" {
   description = "The name of an EC2 Key Pair that can be used to SSH to the EC2 Instances in this cluster. Set to an empty string to not associate a Key Pair."
+  default     = "hashistack-cluster-training"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -27,12 +29,22 @@ variable "ssh_key_name" {
 
 variable "vault_cluster_name" {
   description = "What to name the Vault server cluster and all of its associated resources"
-  default     = "vault-example"
+  default     = "vault-donus"
+}
+
+variable "nomad_cluster_tag_key" {
+  description = "What to name the Vault server cluster and all of its associated resources"
+  default     = "nomad-servers"
 }
 
 variable "consul_cluster_name" {
   description = "What to name the Consul server cluster and all of its associated resources"
-  default     = "consul-example"
+  default     = "consul-donus"
+}
+
+variable "nomad_cluster_name" {
+  description = "What to name the nomad server cluster and all of its associated resources"
+  default     = "nomad-donus"
 }
 
 variable "vault_cluster_size" {
@@ -42,6 +54,11 @@ variable "vault_cluster_size" {
 
 variable "consul_cluster_size" {
   description = "The number of Consul server nodes to deploy. We strongly recommend using 3 or 5."
+  default     = 3
+}
+
+variable "nomad_cluster_size" {
+  description = "The number of nomad server nodes to deploy. We strongly recommend using 3 or 5."
   default     = 3
 }
 
