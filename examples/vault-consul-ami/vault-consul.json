@@ -4,15 +4,17 @@
     "aws_region": "us-east-1",
     "vault_version": "0.10.0",
     "consul_module_version": "v0.0.2",
-    "consul_version": "0.9.3",
+    "consul_version": "0.9.3", 
+    "nomad_module_version": "v0.4.2",
+    "nomad_version": "0.7.1",
     "github_oauth_token": "{{env `GITHUB_OAUTH_TOKEN`}}",
-    "ca_public_key_path": null,
-    "tls_public_key_path": null,
-    "tls_private_key_path": null
+    "ca_public_key_path": "tls/ca.crt.pem",
+    "tls_public_key_path": "tls/vault.crt.pem",
+    "tls_private_key_path": "tls/vault.key.pem"
   },
   "builders": [{
-    "ami_name": "vault-consul-ubuntu-{{isotime | clean_ami_name}}",
-    "ami_description": "An Ubuntu 16.04 AMI that has Vault and Consul installed.",
+    "ami_name": "vault-consul-nomad-ubuntu-{{isotime | clean_ami_name}}",
+    "ami_description": "An Ubuntu 16.04 AMI that has Vault, Nomad and Consul installed.",
     "instance_type": "t2.micro",
     "name": "ubuntu16-ami",
     "region": "{{user `aws_region`}}",
@@ -98,8 +100,10 @@
     "type": "shell",
     "inline": [
       "git clone --branch {{user `consul_module_version`}} https://{{user `github_oauth_token`}}@github.com/hashicorp/terraform-aws-consul.git /tmp/terraform-aws-consul",
+      "git clone --branch {{user `nomad_module_version`}} https://{{user `github_oauth_token`}}@github.com/hashicorp/terraform-aws-nomad.git /tmp/terraform-aws-nomad",
       "/tmp/terraform-aws-consul/modules/install-consul/install-consul --version {{user `consul_version`}}",
-      "/tmp/terraform-aws-consul/modules/install-dnsmasq/install-dnsmasq"
+      "/tmp/terraform-aws-consul/modules/install-dnsmasq/install-dnsmasq",
+      "/tmp/terraform-aws-nomad/modules/install-nomad/install-nomad --version {{user `nomad_version`}}"
     ]
   }]
 }
